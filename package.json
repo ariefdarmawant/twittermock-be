@@ -1,0 +1,30 @@
+{
+  "name": "twittermock-be",
+  "version": "1.0.0",
+  "description": "mock twitter app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ariefdarmawant/twittermock-be.git"
+  },
+  "author": "Arief Darmawan Tantriady",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ariefdarmawant/twittermock-be/issues"
+  },
+  "homepage": "https://github.com/ariefdarmawant/twittermock-be#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.25.3",
+    "uuid": "^9.0.0"
+  }
+}
