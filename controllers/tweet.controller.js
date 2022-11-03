@@ -6,9 +6,15 @@ const { HTTP_STATUS } = require("../constants");
 
 exports.getTweets = async (_, res) => {
   const tweets = await Tweet.findAll({
+    where: {
+      parentId: null
+    },
     include: [
       { model: User, as: "author", attributes: ["name", "username", "id"] },
     ],
+    order: [
+      ['id', 'DESC'],
+  ],
   });
   Promise.all(
     tweets.map(async (value) => {
@@ -89,6 +95,7 @@ exports.postTweet = (req, res) => {
   Tweet.create({
     text: req.body.text,
     parentId: null,
+    userId: req.body.userId
   })
     .then((dataPosted) => {
       res
@@ -106,6 +113,7 @@ exports.postComment = (req, res) => {
   Tweet.create({
     text: req.body.text,
     parentId: req.body.parentId,
+    userId: req.body.userId
   })
     .then((dataPosted) => {
       res

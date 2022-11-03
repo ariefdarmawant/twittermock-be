@@ -1,11 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const bcrypt = require("bcryptjs");
 
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:3000"
+  origin: "http://localhost:3000",
 };
 
 app.use(cors(corsOptions));
@@ -16,8 +17,8 @@ app.use(bodyParser.json());
 // parse request form/url-encoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-require('./routes/auth.routes')(app);
-require('./routes/tweet.routes')(app);
+require("./routes/auth.routes")(app);
+require("./routes/tweet.routes")(app);
 
 const db = require("./models");
 
@@ -30,22 +31,22 @@ function initial() {
     email: "akuntest@gmail.com",
     name: "Akun Test",
     phoneNumber: "+6281123123",
-    password: "Test Password"
-  })
+    password: bcrypt.hashSync("Test Password"),
+  });
   Tweet.create({
     text: "Test Tweet",
     parentId: null,
     userId: 1,
-  })
+  });
   Tweet.create({
     text: "Test Children",
     parentId: 1,
     userId: 1,
-  })
+  });
 }
 
-db.sequelize.sync({force: true}).then(() => {
-  console.log('Drop and Resync Db');
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and Resync Db");
   initial();
 });
 

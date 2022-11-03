@@ -1,5 +1,6 @@
 const { auth } = require("../middleware");
 const controller = require("../controllers/tweet.controller");
+const { verifyToken } = require("../middleware/auth");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -10,15 +11,15 @@ module.exports = function(app) {
     next();
   });
 
-  app.get("/tweets", controller.getTweets);
+  app.get("/tweets", verifyToken , controller.getTweets);
 
-  app.get("/tweets/:id", controller.getTweetById);
+  app.get("/tweets/:id", verifyToken, controller.getTweetById);
 
-  app.post("/tweets/", controller.postTweet);
+  app.post("/tweets/", verifyToken, controller.postTweet);
 
-  app.post("/tweets/comments", controller.postComment);
+  app.post("/tweets/comments", verifyToken, controller.postComment);
 
-  app.patch("/tweets/:id", controller.updateTweet);
+  app.patch("/tweets/:id", verifyToken, controller.updateTweet);
 
-  app.delete("/tweets/:id", controller.deleteTweet);
+  app.delete("/tweets/:id", verifyToken, controller.deleteTweet);
 };

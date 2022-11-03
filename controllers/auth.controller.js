@@ -56,7 +56,7 @@ exports.login = (req, res) => {
         });
       }
 
-      //Expired dalam 24 jam
+      //Expired dalam 1 jam
       var token = jwt.sign({ id: user.id }, config.secret, {
         expiresIn: config.jwtExpiration,
       });

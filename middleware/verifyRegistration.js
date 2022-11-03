@@ -1,51 +1,49 @@
+const { HTTP_STATUS } = require("../constants");
 const db = require("../models");
 const User = db.user;
-const HTTP_STATUS = require("../constants");
 
-checkDuplicateUsernameEmailPhoneNumber = (req, res, next) => {
+checkDuplicateUsernameEmailPhoneNumber = async(req, res, next) => {
   // Username
-  User.findOne({
+  const usernameCheck = await User.findOne({
     where: {
       username: req.body.username,
     },
-  }).then((user) => {
-    if (user) {
-      res.status(HTTP_STATUS.BAD_REQUEST).send({
-        message: "Username already in use!",
-      });
-      return;
-    }
-  });
+  })
+  if (usernameCheck) {
+    res.status(HTTP_STATUS.BAD_REQUEST).send({
+      message: "Username already in use!",
+    });
+    return;
+  } 
 
-  // Email
-  User.findOne({
+  const emailCheck = await User.findOne({
     where: {
       email: req.body.email,
     },
-  }).then((user) => {
-    if (user) {
-      res.status(400).send({
-        message: "Email already in use!",
-      });
-      return;
-    }
-  });
+  })
+  if (emailCheck) {
+    res.status(HTTP_STATUS.BAD_REQUEST).send({
+      message: "Email already in use!",
+    });
+    return;
+  }
 
   // Phone Number
-  User.findOne({
+  const phoneCheck = await User.findOne({
     where: {
       phoneNumber: req.body.phoneNumber,
     },
-  }).then((user) => {
-    if (user) {
-      res.status(HTTP_STATUS.BAD_REQUEST).send({
-        message: "Phone number already in use!",
-      });
-      return;
-    }
-  });
+  })
+  if (phoneCheck) {
+    res.status(HTTP_STATUS.BAD_REQUEST).send({
+      message: "Phone number already in use!",
+    });
+    return;
+  } 
 
-  next();
+  if(!(usernameCheck || emailCheck || phoneCheck)){
+    next();
+  }
 };
 
 const verifyRegistration = {
